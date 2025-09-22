@@ -26,6 +26,36 @@
             --duration: .7s; 
         }
 
+        /* ========== PRELOADER STYLES ========== */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10005; /* Higher than anything else */
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.75s ease, visibility 0.75s ease;
+        }
+        #preloader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--lg-highlight);
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* ========== BASE LAYOUT ========== */
         html {
             scroll-behavior: smooth;
@@ -182,6 +212,17 @@
             border-radius: inherit;
         }
 
+        /* Apply blur to all main sections except video and newsletter */
+        #hero .glass-filter,
+        #about .glass-filter,
+        #education .glass-filter,
+        #skills .glass-filter,
+        #certs .glass-filter,
+        #contact .glass-filter {
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+        }
+
         .glass-overlay {
             position: absolute;
             inset: 0;
@@ -333,11 +374,19 @@
 
         .glass-container--button:hover .glass-overlay { background: var(--lg-hover-glow); }
         
-        .download-icon {
-            display: inline-block;
+        /* ========== DOWNLOAD BUTTON ANIMATION ========== */
+        .download-icon-wrapper {
+            position: relative;
             width: 18px;
             height: 18px;
-            position: relative;
+        }
+        .download-icon, .downloading-icon, .completed-icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.3s ease;
         }
         .download-icon::before {
             content: '';
@@ -348,7 +397,6 @@
             height: 10px;
             background: #fff;
             transform: translateX(-50%);
-            transition: all 0.3s;
         }
         .download-icon::after {
             content: '';
@@ -360,16 +408,38 @@
             border-left: 2px solid #fff;
             border-bottom: 2px solid #fff;
             transform: translateX(-50%) rotate(-45deg);
-            transition: all 0.3s;
         }
-        .download-btn:hover .download-icon {
+        #download-btn:not(.downloading):not(.completed):hover .download-icon {
             animation: download-bounce 1s ease-in-out infinite;
         }
-
         @keyframes download-bounce {
-            0%, 100% { transform: translateY(0); }
+            0%, 100% { transform: translateY(0) rotate(0); }
             50% { transform: translateY(4px); }
         }
+        .downloading-icon {
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .completed-icon {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            line-height: 1;
+            text-align: center;
+        }
+        #download-btn .glass-content {
+            transition: all 0.3s ease;
+        }
+        #download-btn.downloading {
+            cursor: not-allowed;
+            background: var(--lg-hover-glow);
+        }
+        #download-btn.completed .glass-overlay{
+            background: linear-gradient(45deg, #28a745, #218838);
+        }
+        
 
         /* ========== NAME EFFECT ========== */
         .name-effect {
@@ -478,6 +548,17 @@
         .skill-icon { font-size: 28px; line-height: 1; }
         .skill-card h4 { font-size: 0.8rem; margin: 0; color: var(--lg-highlight); }
         
+        .skill-icon-img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        /* This is for the SVG to have the white stroke */
+        .skill-icon-img path {
+            stroke: #ffffff;
+        }
+
         .skill-category h3 {
             font-size: 1.75rem;
             color: var(--lg-text);
@@ -590,6 +671,11 @@
         .contact-details li {
             display: flex; align-items: center;
             gap: 1rem; font-size: 1.1rem;
+        }
+        .contact-details .social-icon {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
         }
         .contact-details a { color: inherit; text-decoration: none; transition: color 0.3s; }
         .contact-details a:hover { opacity: 0.8; }
@@ -712,12 +798,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 2.5rem;
+            padding: 1.5rem;
         }
         .newsletter-container {
             position: relative;
             width: 100%;
-            height: 500px;
+            height: 400px;
             background: transparent;
             box-shadow: none;
         }
@@ -883,6 +969,50 @@
             cursor: pointer;
         }
 
+        /* ========== FOOTER SECTION ========== */
+        footer.glass-container {
+            margin-top: 2rem;
+        }
+        footer.glass-container .glass-filter {
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+        }
+        #footer-content {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.5rem 2.5rem;
+        }
+        #footer-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .footer-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .footer-links a {
+            color: var(--lg-text);
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+        .footer-links .social-icon {
+            width: 28px;
+            height: 28px;
+        }
+        .footer-links a:hover {
+            transform: scale(1.15);
+            opacity: 0.8;
+        }
+
+
         /* ========== RESPONSIVE DESIGN ========== */
         @media screen and (max-width: 900px) { 
             .desktop-nav { display: none; }
@@ -890,6 +1020,10 @@
             .contact-grid { grid-template-columns: 1fr; } 
         }
         @media screen and (max-width: 768px) {
+            body {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
             .hero .glass-content {
                 flex-direction: column-reverse;
                 text-align: center;
@@ -906,7 +1040,7 @@
                 font-size: 3rem;
                 margin-bottom: 2rem;
             }
-            .hero__photo-wrapper { width: 180px; height: 180px; } /* Adjusted for rectangle */
+            .hero__photo-wrapper { width: 180px; height: 180px; }
             
             .subtitle {
                 text-align: center;
@@ -929,7 +1063,7 @@
             }
             .newsletter-container {
                 width: 100%;
-                height: 450px;
+                height: 400px;
             }
             .newsletter-container .slide .item {
                 width: 150px;
@@ -955,12 +1089,18 @@
               .certs-grid {
                  grid-template-columns: 1fr;
               }
+            
+            #footer-content {
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+            }
         }
 
         /* ========== VIDEO SECTION STYLES ========== */
 
         #video .glass-content {
-            padding: 2.5rem;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -1007,7 +1147,7 @@
         .swiper-slide {
             position: relative;
             width: 200px;
-            height: 500px;
+            height: 400px;
             border-radius: 12px;
             overflow: hidden;
             transition: 1s;
@@ -1155,6 +1295,9 @@
     </style>
 </head>
 <body>
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
     <canvas id="cursor-canvas"></canvas>
     <!-- MOBILE NAVIGATION -->
     <div class="mobile-nav-header">
@@ -1179,6 +1322,7 @@
             <a href="#video" class="menu__item">Video</a>
             <a href="#newsletter" class="menu__item">Newsletter</a>
             <a href="#certs" class="menu__item">Certifications</a>
+            <a href="#contact" class="menu__item">Contact</a>
         </menu>
     </div>
 
@@ -1223,11 +1367,15 @@
                 <p class="subtitle"><span id="typing-text"></span></p>
                 <p>I build and manage secure, scalable cloud infrastructure, leveraging my skills in AWS, Azure, and modern DevOps practices.</p>
                 <div class="hero__buttons">
-                    <a href="resume.pdf" download="Ravi_Kant_Resume.pdf" class="glass-container glass-container--button download-btn">
+                    <a href="resume.pdf" id="download-btn" class="glass-container glass-container--button">
                         <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
                         <div class="glass-content">
-                            Download Resume
-                            <span class="download-icon"></span>
+                            <span class="btn-text">Download Resume</span>
+                            <span class="download-icon-wrapper">
+                                <span class="download-icon"></span>
+                                <span class="downloading-icon hidden"></span>
+                                <span class="completed-icon hidden">&#10003;</span>
+                            </span>
                         </div>
                     </a>
                     <a href="#contact" class="glass-container glass-container--button">
@@ -1292,23 +1440,46 @@
                 <div class="skill-category">
                     <h3>Cloud & DevOps</h3>
                     <div class="skills-grid">
-                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><span class="material-symbols-outlined skill-icon">cloud</span><h4>AWS</h4></div></div>
-                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><span class="material-symbols-outlined skill-icon">layers</span><h4>Azure</h4></div></div>
-                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><span class="material-symbols-outlined skill-icon">admin_panel_settings</span><h4>IAM</h4></div></div>
-                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><span class="material-symbols-outlined skill-icon">security</span><h4>Firewall/NSG</h4></div></div>
-                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><span class="material-symbols-outlined skill-icon">architecture</span><h4>Terraform</h4></div></div>
-                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><span class="material-symbols-outlined skill-icon">widgets</span><h4>Docker</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/aws-color.png" alt="AWS icon" class="skill-icon-img"><h4>AWS</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/azure.png" alt="Azure icon" class="skill-icon-img"><h4>Azure</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/color/48/kubernetes.png" alt="Kubernetes icon" class="skill-icon-img"><h4>Kubernetes</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/fluency/48/key-security.png" alt="IAM icon" class="skill-icon-img"><h4>IAM</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/fluency/48/data-transfer.png" alt="Load Balancing icon" class="skill-icon-img"><h4>Load Balancing</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/fluency/48/security-shield-green.png" alt="Network Security icon" class="skill-icon-img"><h4>Network Security</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/color/48/docker.png" alt="Docker icon" class="skill-icon-img"><h4>Docker</h4></div></div>
+                         <div class="glass-container skill-card">
+                            <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+                            <div class="glass-content">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="skill-icon-img">
+                                    <path fill="none" fill-rule="evenodd" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22.65 14.39 12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.43.43 0 0 1 5.4 2a.42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51a.43.43 0 0 1 .69-.16.42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z"></path>
+                                </svg>
+                                <h4>GitLab</h4>
+                            </div>
+                        </div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/fluency/48/virtual-machine.png" alt="Virtual Machine icon" class="skill-icon-img"><h4>VM</h4></div></div>
                     </div>
                 </div>
                   <div class="skill-category">
-                    <h3>Supporting Skills</h3>
+                    <h3>Programming & OS</h3>
                     <div class="skills-grid">
-                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><span class="material-symbols-outlined skill-icon">code</span><h4>Python</h4></div></div>
-                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><span class="material-symbols-outlined skill-icon">code_blocks</span><h4>C++</h4></div></div>
-                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><span class="material-symbols-outlined skill-icon">data_object</span><h4>DSA</h4></div></div>
-                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><span class="material-symbols-outlined skill-icon">terminal</span><h4>Bash</h4></div></div>
-                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><span class="material-symbols-outlined skill-icon">terminal</span><h4>CMD</h4></div></div>
-                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><span class="material-symbols-outlined skill-icon">hub</span><h4>Git & GitHub</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/color/48/python--v1.png" alt="Python icon" class="skill-icon-img"><h4>Python</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/color/48/c-plus-plus-logo.png" alt="C++ icon" class="skill-icon-img"><h4>C++</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/ios-filled/50/228BE6/data-protection.png" alt="DSA icon" class="skill-icon-img"><h4>DSA</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/color/48/console.png" alt="Bash icon" class="skill-icon-img"><h4>Bash</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/color/48/command-line.png" alt="CMD icon" class="skill-icon-img"><h4>CMD</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/github.png" alt="GitHub icon" class="skill-icon-img"><h4>GitHub</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/color/48/linux--v1.png" alt="Linux icon" class="skill-icon-img"><h4>Linux</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/color/48/windows-11.png" alt="Windows icon" class="skill-icon-img"><h4>Windows</h4></div></div>
+                    </div>
+                </div>
+                 <div class="skill-category">
+                    <h3>Design & Video</h3>
+                    <div class="skills-grid">
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/color/48/figma--v1.png" alt="Figma icon" class="skill-icon-img"><h4>Figma</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/color/48/canva.png" alt="Canva icon" class="skill-icon-img"><h4>Canva</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/color/48/adobe-premiere-pro.png" alt="Premiere Pro icon" class="skill-icon-img"><h4>Premiere Pro</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://play-lh.googleusercontent.com/sD228qO7LV_qjEqbp9bjtIkxPQkKtD2KFBFeHWhqOov5aU9-A9ERQENN45J6IgeePPQ9=s96-rw" alt="LumaFusion icon" class="skill-icon-img"><h4>LumaFusion</h4></div></div>
+                        <div class="glass-container skill-card"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="glass-content"><img src="https://img.icons8.com/fluency/48/web-design.png" alt="UX/UI icon" class="skill-icon-img"><h4>UX/UI</h4></div></div>
                     </div>
                 </div>
             </div>
@@ -1511,8 +1682,8 @@
                     <ul>
                         <li><span class="material-symbols-outlined">call</span> <a href="tel:+917257878710">+91 7257878710</a></li>
                         <li><span class="material-symbols-outlined">email</span> <a href="mailto:ravikant7257@gmail.com">ravikant7257@gmail.com</a></li>
-                        <li><span class="material-symbols-outlined">hub</span> <a href="https://github.com" target="_blank">GitHub</a></li>
-                        <li><span class="material-symbols-outlined">business_center</span> <a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+                        <li><img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/github.png" alt="GitHub icon" class="social-icon"><a href="https://github.com" target="_blank">GitHub</a></li>
+                        <li><img src="https://img.icons8.com/color/48/linkedin.png" alt="LinkedIn icon" class="social-icon"><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
                     </ul>
                 </div>
                 <div class="contact-form-wrapper">
@@ -1581,6 +1752,20 @@
         </div>
     </section>
 
+    <!-- FOOTER SECTION -->
+    <footer id="footer" class="glass-container">
+        <div class="glass-filter"></div>
+        <div class="glass-overlay"></div>
+        <div class="glass-specular"></div>
+        <div class="glass-content" id="footer-content">
+            <p>&copy; 2025 Ravi Kant. All Rights Reserved.</p>
+            <div class="footer-links">
+                <a href="https://github.com" target="_blank" title="GitHub"><img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/github.png" alt="GitHub icon" class="social-icon"></a>
+                <a href="https://linkedin.com" target="_blank" title="LinkedIn"><img src="https://img.icons8.com/color/48/linkedin.png" alt="LinkedIn icon" class="social-icon"></a>
+            </div>
+        </div>
+    </footer>
+
     <!-- Modal for embedded posts -->
     <div id="embed-modal" class="modal">
         <span class="close-button">&times;</span>
@@ -1609,6 +1794,12 @@
     <script>
         "use strict"; 
         document.addEventListener("DOMContentLoaded", function() {
+            // --- Preloader Logic ---
+            const preloader = document.getElementById('preloader');
+            window.addEventListener('load', () => {
+                preloader.classList.add('loaded');
+            });
+
             let updateMousePosition = (eX, eY) => {};
             let resetTrail = (eX, eY) => {};
             let pointer;
@@ -1765,6 +1956,49 @@
                 lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
             }, false);
             
+            // --- Download Button Animation ---
+            const downloadBtn = document.getElementById('download-btn');
+            const btnText = downloadBtn.querySelector('.btn-text');
+            const downloadIcon = downloadBtn.querySelector('.download-icon');
+            const downloadingIcon = downloadBtn.querySelector('.downloading-icon');
+            const completedIcon = downloadBtn.querySelector('.completed-icon');
+
+            downloadBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if(downloadBtn.classList.contains('downloading') || downloadBtn.classList.contains('completed')) {
+                    return;
+                }
+
+                downloadBtn.classList.add('downloading');
+                btnText.textContent = 'Downloading...';
+                downloadIcon.classList.add('hidden');
+                downloadingIcon.classList.remove('hidden');
+
+                setTimeout(() => {
+                    downloadBtn.classList.remove('downloading');
+                    downloadBtn.classList.add('completed');
+                    btnText.textContent = 'Completed!';
+                    downloadingIcon.classList.add('hidden');
+                    completedIcon.classList.remove('hidden');
+
+                    // Create a temporary link to trigger the download
+                    const link = document.createElement('a');
+                    link.href = downloadBtn.href;
+                    link.setAttribute('download', 'Ravi_Kant_Resume.pdf'); // You can name the file here
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    setTimeout(() => {
+                        downloadBtn.classList.remove('completed');
+                        btnText.textContent = 'Download Resume';
+                        completedIcon.classList.add('hidden');
+                        downloadIcon.classList.remove('hidden');
+                    }, 3000);
+                }, 2500);
+            });
+
+
             // --- Contact Form Toggle Logic ---
             const contactToggle = document.getElementById('contact-toggle');
             const hireForm = document.getElementById('hire-form');
@@ -1782,11 +2016,8 @@
             contactToggle.addEventListener('change', () => {
                 isFormToggling = true;
                 updateFormState(contactToggle.checked);
-                // Reset the flag after the animation duration (700ms from CSS) + a small buffer
                 setTimeout(() => { isFormToggling = false; }, 800);
             });
-
-            // Set initial state
             updateFormState(false);
 
 
@@ -1795,104 +2026,50 @@
             const playPauseButton = document.getElementById("play-pause-button");
             const playIcon = document.getElementById("play-music");
             const pauseIcon = document.getElementById("pause-music");
-
             let isPlaying = false;
             
             function togglePlayPause() {
-            if (isPlaying) {
-                audio.pause();
-                playIcon.classList.remove("hidden");
-                pauseIcon.classList.add("hidden");
-            } else {
-                audio.play();
-                playIcon.classList.add("hidden");
-                pauseIcon.classList.remove("hidden");
+                if (isPlaying) {
+                    audio.pause();
+                    playIcon.classList.remove("hidden");
+                    pauseIcon.classList.add("hidden");
+                } else {
+                    audio.play();
+                    playIcon.classList.add("hidden");
+                    pauseIcon.classList.remove("hidden");
+                }
+                isPlaying = !isPlaying;
             }
-            isPlaying = !isPlaying;
-            }
-
             playPauseButton.addEventListener("click", togglePlayPause);
-
             audio.addEventListener("ended", function () {
-            audio.currentTime = 0;
-            audio.play();
+                audio.currentTime = 0;
+                audio.play();
             });
 
             var swiper = new Swiper("#video .swiper", {
-            grabCursor: true,
-            initialSlide: 4,
-            centeredSlides: true,
-            slidesPerView: "auto",
-            spaceBetween: 10,
-            speed: 1000,
-            freeMode: false,
-            mousewheel: {
-                thresholdDelta: 30,
-            },
-            pagination: {
-                el: "#video .swiper-pagination",
-            },
-            on: {
-                click(event) {
-                swiper.slideTo(this.clickedIndex);
-                },
-            },
+                grabCursor: true,
+                initialSlide: 4,
+                centeredSlides: true,
+                slidesPerView: "auto",
+                spaceBetween: 10,
+                speed: 1000,
+                freeMode: false,
+                mousewheel: { thresholdDelta: 30 },
+                pagination: { el: "#video .swiper-pagination" },
+                on: { click(event) { swiper.slideTo(this.clickedIndex); } },
             });
 
             particlesJS("particles-js", {
-            particles: {
-                number: {
-                value: 180,
-                density: {
-                    enable: true,
-                    value_area: 800,
+                particles: {
+                    number: { value: 180, density: { enable: true, value_area: 800 } },
+                    color: { value: "#fff" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.3, random: false, anim: { enable: false } },
+                    size: { value: 4, random: true, anim: { enable: true, speed: 2, size_min: 0.1, sync: false } },
+                    line_linked: { enable: false },
+                    move: { enable: true, speed: 0.4, direction: "right", random: true, straight: false, out_mode: "none", bounce: false, attract: { enable: false } },
                 },
-                },
-                color: {
-                value: "#fff",
-                },
-                shape: {
-                type: "circle",
-                },
-                opacity: {
-                value: 0.3,
-                random: false,
-                anim: {
-                    enable: false,
-                    speed: 4,
-                    opacity_min: 0.1,
-                    sync: false,
-                },
-                },
-                size: {
-                value: 4,
-                random: true,
-                anim: {
-                    enable: true,
-                    speed: 2,
-                    size_min: 0.1,
-                    sync: false,
-                },
-                },
-                line_linked: {
-                enable: false,
-                },
-                move: {
-                enable: true,
-                speed: 0.4,
-                direction: "right",
-                random: true,
-                straight: false,
-                out_mode: "none",
-                bounce: false,
-                attract: {
-                    enable: false,
-                    rotateX: 600,
-                    rotateY: 1200,
-                },
-                },
-            },
-            retina_detect: true,
+                retina_detect: true,
             });
 
             // --- Typing Animation Logic ---
@@ -1905,31 +2082,23 @@
 
                 const type = () => {
                     const currentRole = roles[roleIndex];
-                    let displayText;
-
-                    if (isDeleting) {
-                        displayText = currentRole.substring(0, charIndex - 1);
-                        charIndex--;
-                    } else {
-                        displayText = currentRole.substring(0, charIndex + 1);
-                        charIndex++;
-                    }
-
+                    let displayText = isDeleting ? currentRole.substring(0, charIndex - 1) : currentRole.substring(0, charIndex + 1);
                     typingTextElement.textContent = displayText;
+                    charIndex = isDeleting ? charIndex - 1 : charIndex + 1;
+                    
                     let typeSpeed = isDeleting ? 75 : 150;
 
                     if (!isDeleting && charIndex === currentRole.length) {
-                        typeSpeed = 2000; // Pause after typing
+                        typeSpeed = 2000;
                         isDeleting = true;
                     } else if (isDeleting && charIndex === 0) {
                         isDeleting = false;
                         roleIndex = (roleIndex + 1) % roles.length;
-                        typeSpeed = 500; // Pause before typing new role
+                        typeSpeed = 500;
                     }
 
                     setTimeout(type, typeSpeed);
                 };
-
                 type();
             }
 
@@ -1938,13 +2107,12 @@
             let prevButton = document.querySelector("#newsletter .prev");
 
             nextButton.addEventListener("click", function () {
-            let items = document.querySelectorAll("#newsletter .item");
-            document.querySelector("#newsletter .slide").appendChild(items[0]);
+                let items = document.querySelectorAll("#newsletter .item");
+                document.querySelector("#newsletter .slide").appendChild(items[0]);
             });
-
             prevButton.addEventListener("click", function () {
-            let items = document.querySelectorAll("#newsletter .item");
-            document.querySelector("#newsletter .slide").prepend(items[items.length - 1]);
+                let items = document.querySelectorAll("#newsletter .item");
+                document.querySelector("#newsletter .slide").prepend(items[items.length - 1]);
             });
 
             // --- Modal and Button Logic ---
@@ -1970,66 +2138,62 @@
 
             closeButton.addEventListener('click', () => {
                 modal.style.display = 'none';
-                iframe.src = ''; // Stop the iframe content
+                iframe.src = ''; 
             });
-
             window.addEventListener('click', (event) => {
                 if (event.target == modal) {
                     modal.style.display = 'none';
-                    iframe.src = ''; // Stop the iframe content
+                    iframe.src = '';
                 }
             });
             
             // --- Certifications View More/Less ---
             const certsGrid = document.querySelector('.certs-grid');
             const viewToggleBtn = document.getElementById('view-toggle-btn');
-        
-
             const certifications = [
-            { title: 'Algorithms on Strings', issuer: 'University of California San Diego', date: 'May 2024', id: 'LUCFVHK3XN5Q' },
-            { title: 'Build AI Apps with ChatGPT, Dall-E, and GPT-4', issuer: 'Scrimba', date: 'May 2024', id: 'KMBXK96Q88BZ' },
-            { title: 'ChatGPT for Beginners: Save time with Microsoft Excel', issuer: 'Coursera Project Network', date: 'May 2024', id: '2F6D7CQJDS52' },
-            { title: 'Generative AI Primer', issuer: 'Vanderbilt University', date: 'May 2024', id: 'AUBTSEPB2T9J' },
-            { title: 'Generative AI for Everyone', issuer: 'DeepLearning.AI', date: 'May 2024', id: 'B4HCDJ5Z7GMA' },
-            { title: 'Introduction to Generative AI', issuer: 'Google Cloud', date: 'May 2024', id: 'FC4M87T526F6' },
-            { title: 'Introduction to Large Language Models', issuer: 'Google Cloud', date: 'May 2024', id: '8V4X8PMNYF38' },
-            { title: 'ChatGPT Playground for Beginners: Intro to NLP AI', issuer: 'Coursera Project Network', date: 'Apr 2024', id: 'W8FZGZ8K7PYC' },
-            { title: 'Generative AI with Large Language Models', issuer: 'DeepLearning.AI, Amazon Web Services', date: 'Apr 2024', id: 'ZEXY9TAUWE9N' },
-            { title: 'ChatGPT Advanced Data Analysis', issuer: 'Vanderbilt University', date: 'Mar 2024', id: 'D9N4C5JHH53M' },
-            { title: 'Learn to code with AI', issuer: 'Scrimba', date: 'Mar 2024', id: 'N3DY6VBCE4A9' },
-            { title: 'C++ Basic Structures: Vectors, Pointers, Strings, and Files', issuer: 'Codio', date: 'Feb 2024', id: '2XHVX5794Y4C' },
-            { title: 'C++ Basics: Selection and Iteration', issuer: 'Codio', date: 'Feb 2024', id: 'BKZ4DTUEHGKN' },
-            { title: 'C++ Object Basics: Functions, Recursion, and Objects', issuer: 'Codio', date: 'Feb 2024', id: '6CAGA6BDSVGJ' },
-            { title: 'GenAI for Everyone', issuer: 'Fractal Analytics', date: 'Feb 2024', id: 'GWWE4PQ2Q7DW' },
-            { title: 'Mastering Data Structures & Algorithms using C and C++', issuer: 'Udemy', date: 'Feb 2024', id: 'UC-bc0c0fdb-61ae-42e7-a1c8-5ba8f2329918' },
-            { title: 'Object-Oriented C++: Inheritance and Encapsulation', issuer: 'Codio', date: 'Feb 2024', id: 'Q9DFU56P363Y' },
-            { title: 'Programming in C++: A Hands-on Introduction Specialization', issuer: 'Codio', date: 'Feb 2024', id: 'J8KRJJFBCK7E' },
-            { title: 'Prompt Engineering for ChatGPT', issuer: 'Vanderbilt University', date: 'Feb 2024', id: '42ESA8GBZLLT' },
-            { title: 'Static Routing Configuration Using Packet Tracer', issuer: 'Coursera Project Network', date: 'Feb 2024', id: 'ESGNMEJX2YLA' },
-            { title: 'C Plus Plus Programming', issuer: 'HCL GUVI', date: 'Jul 2023', id: 'cW95qVw4319iP80618' },
-            { title: 'Tony Schwartz on Managing Your Energy for Sustainable High Performance', issuer: 'LinkedIn', date: 'Apr 2023', id: null },
-            { title: 'Leadership Through Social Influence', issuer: 'Coursera', date: 'Mar 2023', id: null },
-            { title: 'Become a Full-Stack Web Developer', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'CSS Essential Training', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'DevOps Foundations', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'Git Essential Training: The Basics', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'JavaScript Essential Training', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'Learning ECMAScript 6+ (ES6+)', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'Learning REST APIs', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'Learning Video Production and Editing', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'NoSQL Essential Training', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'Node.js Essential Training', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'React.js Essential Training', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'SEO: Optimize Your Social Media Profiles', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'SQL Essential Training (2019)', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'Search Techniques for Web Developers', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
-            { title: 'Learning C', issuer: 'LinkedIn', date: 'Jan 2023', id: null },
-            { title: 'CSS Certificate', issuer: 'HackerRank', date: 'Dec 2022', id: null },
-            { title: 'HTML Essential Training', issuer: 'LinkedIn', date: 'Dec 2022', id: null },
-            { title: 'Creating Your Personal Brand', issuer: 'LinkedIn', date: 'Nov 2022', id: null },
-            { title: 'HTML', issuer: 'Sololearn', date: 'Oct 2022', id: 'CT-Y3KNLCBD' }
+                { title: 'Algorithms on Strings', issuer: 'University of California San Diego', date: 'May 2024', id: 'LUCFVHK3XN5Q' },
+                { title: 'Build AI Apps with ChatGPT, Dall-E, and GPT-4', issuer: 'Scrimba', date: 'May 2024', id: 'KMBXK96Q88BZ' },
+                { title: 'ChatGPT for Beginners: Save time with Microsoft Excel', issuer: 'Coursera Project Network', date: 'May 2024', id: '2F6D7CQJDS52' },
+                { title: 'Generative AI Primer', issuer: 'Vanderbilt University', date: 'May 2024', id: 'AUBTSEPB2T9J' },
+                { title: 'Generative AI for Everyone', issuer: 'DeepLearning.AI', date: 'May 2024', id: 'B4HCDJ5Z7GMA' },
+                { title: 'Introduction to Generative AI', issuer: 'Google Cloud', date: 'May 2024', id: 'FC4M87T526F6' },
+                { title: 'Introduction to Large Language Models', issuer: 'Google Cloud', date: 'May 2024', id: '8V4X8PMNYF38' },
+                { title: 'ChatGPT Playground for Beginners: Intro to NLP AI', issuer: 'Coursera Project Network', date: 'Apr 2024', id: 'W8FZGZ8K7PYC' },
+                { title: 'Generative AI with Large Language Models', issuer: 'DeepLearning.AI, Amazon Web Services', date: 'Apr 2024', id: 'ZEXY9TAUWE9N' },
+                { title: 'ChatGPT Advanced Data Analysis', issuer: 'Vanderbilt University', date: 'Mar 2024', id: 'D9N4C5JHH53M' },
+                { title: 'Learn to code with AI', issuer: 'Scrimba', date: 'Mar 2024', id: 'N3DY6VBCE4A9' },
+                { title: 'C++ Basic Structures: Vectors, Pointers, Strings, and Files', issuer: 'Codio', date: 'Feb 2024', id: '2XHVX5794Y4C' },
+                { title: 'C++ Basics: Selection and Iteration', issuer: 'Codio', date: 'Feb 2024', id: 'BKZ4DTUEHGKN' },
+                { title: 'C++ Object Basics: Functions, Recursion, and Objects', issuer: 'Codio', date: 'Feb 2024', id: '6CAGA6BDSVGJ' },
+                { title: 'GenAI for Everyone', issuer: 'Fractal Analytics', date: 'Feb 2024', id: 'GWWE4PQ2Q7DW' },
+                { title: 'Mastering Data Structures & Algorithms using C and C++', issuer: 'Udemy', date: 'Feb 2024', id: 'UC-bc0c0fdb-61ae-42e7-a1c8-5ba8f2329918' },
+                { title: 'Object-Oriented C++: Inheritance and Encapsulation', issuer: 'Codio', date: 'Feb 2024', id: 'Q9DFU56P363Y' },
+                { title: 'Programming in C++: A Hands-on Introduction Specialization', issuer: 'Codio', date: 'Feb 2024', id: 'J8KRJJFBCK7E' },
+                { title: 'Prompt Engineering for ChatGPT', issuer: 'Vanderbilt University', date: 'Feb 2024', id: '42ESA8GBZLLT' },
+                { title: 'Static Routing Configuration Using Packet Tracer', issuer: 'Coursera Project Network', date: 'Feb 2024', id: 'ESGNMEJX2YLA' },
+                { title: 'C Plus Plus Programming', issuer: 'HCL GUVI', date: 'Jul 2023', id: 'cW95qVw4319iP80618' },
+                { title: 'Tony Schwartz on Managing Your Energy for Sustainable High Performance', issuer: 'LinkedIn', date: 'Apr 2023', id: null },
+                { title: 'Leadership Through Social Influence', issuer: 'Coursera', date: 'Mar 2023', id: null },
+                { title: 'Become a Full-Stack Web Developer', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'CSS Essential Training', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'DevOps Foundations', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'Git Essential Training: The Basics', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'JavaScript Essential Training', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'Learning ECMAScript 6+ (ES6+)', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'Learning REST APIs', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'Learning Video Production and Editing', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'NoSQL Essential Training', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'Node.js Essential Training', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'React.js Essential Training', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'SEO: Optimize Your Social Media Profiles', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'SQL Essential Training (2019)', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'Search Techniques for Web Developers', issuer: 'LinkedIn', date: 'Feb 2023', id: null },
+                { title: 'Learning C', issuer: 'LinkedIn', date: 'Jan 2023', id: null },
+                { title: 'CSS Certificate', issuer: 'HackerRank', date: 'Dec 2022', id: null },
+                { title: 'HTML Essential Training', issuer: 'LinkedIn', date: 'Dec 2022', id: null },
+                { title: 'Creating Your Personal Brand', issuer: 'LinkedIn', date: 'Nov 2022', id: null },
+                { title: 'HTML', issuer: 'Sololearn', date: 'Oct 2022', id: 'CT-Y3KNLCBD' }
             ];
-
             const initialVisibleCount = 6;
 
             function renderCerts() {
@@ -2040,18 +2204,14 @@
                     if (index >= initialVisibleCount) {
                         certItem.classList.add('hidden');
                     }
-                    
                     let idHtml = cert.id ? `<p class="cert-id">Credential ID: ${cert.id}</p>` : '';
-
                     certItem.innerHTML = `
                         <h3>${cert.title}</h3>
                         <p>${cert.issuer} - ${cert.date}</p>
                         <div class="cert-footer">
                             ${idHtml}
                             <button class="glass-container glass-container--button">
-                                <div class="glass-filter"></div>
-                                <div class="glass-overlay"></div>
-                                <div class="glass-specular"></div>
+                                <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
                                 <div class="glass-content">View</div>
                             </button>
                         </div>
@@ -2059,7 +2219,6 @@
                     certsGrid.appendChild(certItem);
                 });
             }
-            
             let certsExpanded = false;
             function toggleCerts() {
                 certsExpanded = !certsExpanded;
@@ -2070,14 +2229,11 @@
                     }
                 });
                 viewToggleBtn.querySelector('.glass-content').textContent = certsExpanded ? 'View Less' : 'View More';
-                
                 if (!certsExpanded) {
                     document.getElementById('certs').scrollIntoView({ behavior: 'smooth' });
                 }
             }
-
             viewToggleBtn.addEventListener('click', toggleCerts);
-            
             renderCerts();
             if(certifications.length > initialVisibleCount) {
                 viewToggleBtn.classList.remove('hidden');
@@ -2086,10 +2242,8 @@
             
             // Scrollspy for active nav link
             const sections = document.querySelectorAll('section[id]');
-
             function handleScroll() {
                 const scrollY = window.pageYOffset;
-
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop - 150;
                     const sectionHeight = section.offsetHeight;
@@ -2108,3 +2262,4 @@
     </script>
 </body>
 </html>
+
