@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Ravi Kant - Cloud Engineer</title>
     <!-- Google Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,6 +17,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet" />
     <style>
+        @import url("https://fonts.googleapis.com/css?family=Comfortaa");
         :root {
             --lg-bg-color: rgba(0, 0, 0, 0.2); 
             --lg-highlight: rgba(255, 255, 255, 0.25);
@@ -60,7 +61,7 @@
         html {
             scroll-behavior: smooth;
         }
-        
+       
         body {
             margin: 0;
             padding: 120px 2rem 4rem 2rem;
@@ -115,11 +116,11 @@
             z-index: 1000;
             transition: transform 0.4s ease-out;
         }
-        
+       
         .desktop-nav.nav--hidden {
             transform: translate(-50%, -150%);
         }
-        
+       
         .mobile-nav-header {
             display: none; /* Hidden by default */
             position: fixed;
@@ -145,13 +146,13 @@
             transition: opacity 0.3s ease;
             pointer-events: none;
         }
-        
+       
         .mobile-nav-links.nav-open {
             display: flex;
             opacity: 1;
             pointer-events: auto;
         }
-        
+       
         .mobile-nav-links .menu {
             flex-direction: column;
             gap: 1rem;
@@ -164,11 +165,11 @@
              padding: 0.5rem 1rem;
              display: block;
         }
-        
+       
         .mobile-nav-links .icon {
             display: none; /* Hide icons in mobile vertical menu */
         }
-        
+       
         /* Hamburger Menu Icon Styles */
         .ham {
           cursor: pointer !important;
@@ -215,6 +216,7 @@
         /* Apply blur to all main sections except video and newsletter */
         #hero .glass-filter,
         #about .glass-filter,
+        #projects .glass-filter,
         #education .glass-filter,
         #skills .glass-filter,
         #certs .glass-filter,
@@ -230,7 +232,7 @@
             background: var(--lg-bg-color);
             border-radius: inherit;
         }
-        
+       
         .glass-specular {
             position: absolute;
             inset: 0;
@@ -240,7 +242,7 @@
             box-shadow: inset 1px 1px 0 var(--lg-highlight),
                 inset 0 0 5px var(--lg-highlight);
         }
-        
+       
         .glass-content {
             position: relative;
             z-index: 3;
@@ -248,7 +250,7 @@
             padding: 2.5rem;
             box-sizing: border-box;
         }
-        
+       
         /* ========== NAVBAR (Desktop) ========== */
         .desktop-nav .glass-content {
             padding: 0;
@@ -283,7 +285,7 @@
             width: 2.6em; height: 2.6em; stroke: var(--lg-text); fill: none; stroke-width: 2px;
             stroke-miterlimit: 10; stroke-linecap: round; stroke-linejoin: round;
         }
-        
+       
         /* ========== HERO SECTION ========== */
         .hero .glass-content {
             display: flex;
@@ -292,7 +294,7 @@
             text-align: left;
             gap: 3rem;
         }
-        
+       
         .hero__image {
             flex: 1;
             display: flex;
@@ -307,7 +309,7 @@
         .hero__photo-wrapper {
             position: relative;
             width: 220px;
-            height: 220px;
+            height: 280px; /* Adjusted for portrait */
             box-shadow: 0 0 30px rgba(0,0,0,0.4);
             border-radius: 2rem;
         }
@@ -330,9 +332,10 @@
 
         .hero__photo {
             width: 100%; height: 100%; border-radius: 2rem; object-fit: cover;
+            object-position: top center; /* Prioritize top of image */
             position: relative; z-index: 3;
         }
-        
+       
         .hero p {
             font-size: 1.1rem;
             max-width: 550px;
@@ -373,7 +376,7 @@
         }
 
         .glass-container--button:hover .glass-overlay { background: var(--lg-hover-glow); }
-        
+       
         /* ========== DOWNLOAD BUTTON ANIMATION ========== */
         .download-icon-wrapper {
             position: relative;
@@ -439,7 +442,7 @@
         #download-btn.completed .glass-overlay{
             background: linear-gradient(45deg, #28a745, #218838);
         }
-        
+       
 
         /* ========== NAME EFFECT ========== */
         .name-effect {
@@ -497,7 +500,7 @@
         .name-effect:hover span:nth-child(3){
             transform:translateY(-50%) scaleY(1);
         }
-        
+       
         .subtitle {
             font-size: 1.1rem;
             font-weight: 500;
@@ -526,6 +529,62 @@
         .section-title { font-size: 2.5rem; text-align: center; margin-bottom: 2rem; width: 100%; }
         .section-content p { font-size: 1.1rem; line-height: 1.7; opacity: 0.9; }
 
+        /* ========= PROJECTS SECTION ========= */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+        .project-card {
+            border-radius: 1.5rem;
+            flex-direction: column;
+            width: 100%;
+        }
+        .project-card .glass-filter {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .project-card .glass-content {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+        .project-details {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .project-details h3 {
+            margin: 0 0 0.75rem 0;
+            font-size: 1.5rem;
+        }
+        .project-details p {
+            margin: 0 0 1.5rem 0;
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            flex-grow: 1;
+        }
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+        }
+        .project-links .glass-container--button .glass-content {
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+
         /* ========= SKILLS SECTION ========= */
         .skills-grid {
             display: grid;
@@ -534,7 +593,7 @@
             width: 100%;
             justify-items: center;
         }
-        
+       
         .skill-card {
             border-radius: 50%; width: 90px; height: 90px;
         }
@@ -544,10 +603,10 @@
             padding: 0.5rem; flex-direction: column; align-items: center;
             justify-content: center; text-align: center; gap: 0.5rem;
         }
-        
+       
         .skill-icon { font-size: 28px; line-height: 1; }
         .skill-card h4 { font-size: 0.8rem; margin: 0; color: var(--lg-highlight); }
-        
+       
         .skill-icon-img {
             width: 32px;
             height: 32px;
@@ -661,7 +720,7 @@
             grid-template-columns: 1fr 1.5fr;
             gap: 3rem;
             width: 100%;
-            align-items: center;
+            align-items: flex-start; /* Changed to flex-start */
         }
 
         .contact-details ul {
@@ -683,7 +742,7 @@
         .toggle-container { display: flex; align-items: center; gap: 1rem; }
         .toggle-label { font-size: 1.1rem; font-weight: 500; transition: opacity 0.3s; }
         .form-container form { display: flex; flex-direction: column; gap: 1rem; }
-        
+       
         .glass-container--input {
             border-radius: 12px;
             width: 100%;
@@ -709,7 +768,7 @@
             color: var(--lg-text);
             opacity: 0.7;
         }
-        
+       
         .form-container .glass-container--button .glass-filter {
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
@@ -722,7 +781,7 @@
             border: none;
         }
         #freelance-form { display: none; }
-        
+       
         /* ========== ANIMATED TOGGLE STYLES ========== */
         .switch {
             display: inline-flex;
@@ -743,7 +802,7 @@
             overflow: hidden;
             border-radius: 24px;
         }
-        
+       
         .switch-slider .glass-filter {
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -766,7 +825,7 @@
             backface-visibility: hidden;
             animation: dot-off 0.7s cubic-bezier(.57,.21,.69,0.25) forwards;
         }
-        
+       
         .switch-dot-glass .glass-filter { z-index: 0; backdrop-filter: blur(0px); filter: url(#lg-dist); isolation: isolate; }
         .switch-dot-glass .glass-overlay { z-index: 1; background: rgba(255,255,255,0.4); }
         .switch-dot-glass .glass-specular { z-index: 2; box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.7), inset 0 0 5px rgba(255, 255, 255, 0.7); }
@@ -774,7 +833,7 @@
         .switch input:checked ~ .switch-dot-glass {
             animation: dot-on 0.7s cubic-bezier(.57,.21,.69,0.25) forwards;
         }
-        
+       
         @keyframes dot-on {
             0% { transform: translateX(0) rotateY(0deg); }
             20% { transform: scale(1.2) translateX(0) rotateY(-23deg); }
@@ -808,11 +867,11 @@
             box-shadow: none;
         }
         .newsletter-container .slide {
-          border-radius: 20px;
-          width: 100%;
-          height: 100%;
-          position: relative;
-          overflow: hidden;
+        border-radius: 20px;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
         }
         .newsletter-container .slide .item {
             width: 200px;
@@ -841,7 +900,7 @@
         .newsletter-container .slide .item:nth-child(4) { left: calc(60% + 220px); }
         .newsletter-container .slide .item:nth-child(5) { left: calc(60% + 440px); }
         .newsletter-container .slide .item:nth-child(n + 6) { left: calc(60% + 660px); opacity: 0; }
-        
+       
         .newsletter-container .item .content {
             position: absolute;
             top: 50%;
@@ -1040,8 +1099,8 @@
                 font-size: 3rem;
                 margin-bottom: 2rem;
             }
-            .hero__photo-wrapper { width: 180px; height: 180px; }
-            
+            .hero__photo-wrapper { width: 180px; height: 230px; }
+           
             .subtitle {
                 text-align: center;
                 font-size: 1rem;
@@ -1052,12 +1111,12 @@
             #video .glass-content {
                 height: auto;
             }
-        
+       
             .swiper-slide {
                 width: 160px;
                 height: 400px;
             }
-        
+       
             .swiper-slide-active {
                 width: 260px;
             }
@@ -1071,24 +1130,24 @@
             }
              .newsletter-container .slide .item:nth-child(3) {
                  left: 55%;
-              }
-              .newsletter-container .slide .item:nth-child(4) {
+             }
+             .newsletter-container .slide .item:nth-child(4) {
                  left: calc(55% + 170px);
-              }
+             }
             .newsletter-container .item .content {
                 left: 20px;
                 width: 45%;
             }
-              .newsletter-container .content .name {
+             .newsletter-container .content .name {
                  font-size: 28px;
-              }
-              .newsletter-container .content .des {
+             }
+             .newsletter-container .content .des {
                  font-size: 0.9rem;
                  margin-bottom: 15px;
-              }
-              .certs-grid {
+             }
+             .certs-grid {
                  grid-template-columns: 1fr;
-              }
+             }
             
             #footer-content {
                 flex-direction: column;
@@ -1287,11 +1346,123 @@
                 right: -10px;
                 bottom: -20px;
             }
-            
+           
             #video-content-wrapper .logo img {
                 width: 80px;
             }
         }
+        
+        /* ========== GAME STYLES (PC ONLY) ========== */
+        @media screen and (min-width: 901px) {
+            .game-card {
+                display: block; /* Show on desktop */
+                position: relative;
+                width: 100%;
+                height: 400px;
+                background: rgba(0, 0, 0, 0.1);
+                border-radius: 1.5rem;
+                overflow: hidden;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                border: 1px solid var(--lg-highlight);
+                margin-bottom: 2rem;
+            }
+
+            .game-card #container, .game-card #game {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                overflow: hidden;
+                font-family: "Comfortaa", cursive;
+            }
+            .game-card #container #score {
+                position: absolute;
+                top: 20px;
+                width: 100%;
+                text-align: center;
+                font-size: 10vh;
+                transition: transform 0.5s ease;
+                color: #333344;
+                transform: translatey(-200px) scale(1);
+            }
+            .game-card #container .game-over {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 85%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .game-card #container .game-over * {
+                transition: opacity 0.5s ease, transform 0.5s ease;
+                opacity: 0;
+                transform: translatey(-50px);
+                color: #333344;
+            }
+            .game-card #container .game-over h2 {
+                margin: 0;
+                padding: 0;
+                font-size: 40px;
+            }
+            .game-card #container .game-ready {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-around;
+            }
+            .game-card #container .game-ready #start-button {
+                transition: opacity 0.5s ease, transform 0.5s ease;
+                opacity: 0;
+                transform: translatey(-50px);
+                border: 3px solid #333344;
+                padding: 10px 20px;
+                background-color: transparent;
+                color: #333344;
+                font-size: 30px;
+            }
+            .game-card #container #instructions {
+                position: absolute;
+                width: 100%;
+                top: 16vh;
+                left: 0;
+                text-align: center;
+                transition: opacity 0.5s ease, transform 0.5s ease;
+                opacity: 0;
+            }
+            .game-card #container #instructions.hide {
+                opacity: 0 !important;
+            }
+            .game-card #container.playing #score, .game-card #container.resetting #score {
+                transform: translatey(0px) scale(1);
+            }
+            .game-card #container.playing #instructions {
+                opacity: 1;
+            }
+            .game-card #container.ready .game-ready #start-button {
+                opacity: 1;
+                transform: translatey(0);
+            }
+            .game-card #container.ended #score {
+                transform: translatey(6vh) scale(1.5);
+            }
+            .game-card #container.ended .game-over * {
+                opacity: 1;
+                transform: translatey(0);
+            }
+            .game-card #container.ended .game-over p {
+                transition-delay: 0.3s;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1319,6 +1490,7 @@
             <a href="#about" class="menu__item">About</a>
             <a href="#education" class="menu__item">Education</a>
             <a href="#skills" class="menu__item">Skills</a>
+            <a href="#projects" class="menu__item">Projects</a>
             <a href="#video" class="menu__item">Video</a>
             <a href="#newsletter" class="menu__item">Newsletter</a>
             <a href="#certs" class="menu__item">Certifications</a>
@@ -1337,6 +1509,7 @@
                 <a href="#about" class="menu__item" title="About"><svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
                 <a href="#education" class="menu__item" title="Education"><svg class="icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></a>
                 <a href="#skills" class="menu__item" title="Skills"><svg class="icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></a>
+                <a href="#projects" class="menu__item" title="Projects"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg></a>
                 <a href="#video" class="menu__item" title="Video"><svg class="icon" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg></a>
                 <a href="#newsletter" class="menu__item" title="Newsletter"><svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
                 <a href="#certs" class="menu__item" title="Certifications"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg></a>
@@ -1344,7 +1517,7 @@
             </menu>
         </div>
     </div>
-    
+   
     <!-- HERO SECTION -->
     <section class="glass-container hero" id="hero">
         <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
@@ -1354,7 +1527,7 @@
                     <div class="glass-container photo-frame">
                         <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
                     </div>
-                    <img src="https://media.licdn.com/dms/image/v2/D5635AQF-ZmxGLBjuOw/profile-framedphoto-shrink_400_400/B56ZlJPE67KMAc-/0/1757870313858?e=1759006800&v=beta&t=u1533zU_CVDvMNHTac5JklRcT5KvpRD9pOENT_r10MI" alt="Photo of Ravi Kant" class="hero__photo">
+                    <img src="https://scontent.faip1-2.fna.fbcdn.net/v/t39.30808-6/548102856_4010571912591019_2166792851771200586_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=6_9NL1odSTIQ7kNvwFiJZPV&_nc_oc=Adnt3JfFD1rB34mmF3sw18LZX_3hjdenQdvrbhheiRryA-abaS-5tAuu3FypHGp_o3r5Zn8YndZlE00_QjJrTFNl&_nc_zt=23&_nc_ht=scontent.faip1-2.fna&_nc_gid=mJmrsfgxLjSugcBrg8sI4Q&oh=00_AfbDlUorfuXxfWFbPeTlyshDYMvGoVBImeziyBCOjl1LNQ&oe=68DE30A4" alt="Photo of Ravi Kant" class="hero__photo">
                 </div>
             </div>
             <div class="hero__content">
@@ -1486,6 +1659,71 @@
         </div>
     </section>
 
+    <!-- PROJECTS SECTION -->
+    <section id="projects" class="glass-container content-section">
+        <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+        <div class="glass-content">
+            <h2 class="section-title">My Projects</h2>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="glass-container project-card">
+                     <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+                     <div class="glass-content">
+                        <img src="https://images.unsplash.com/photo-1580894742597-87bc8789db3d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Project 1 Image" class="project-image">
+                        <div class="project-details">
+                            <h3>Cloud-Based Web Scraper</h3>
+                            <p>A scalable web scraping solution deployed on AWS Lambda, triggered by S3 events. It extracts data, processes it, and stores the results in DynamoDB, demonstrating a serverless architecture.</p>
+                            <div class="project-links">
+                                <a href="#" class="glass-container glass-container--button">
+                                    <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+                                    <div class="glass-content">Live Demo</div>
+                                </a>
+                                <a href="#" class="glass-container glass-container--button">
+                                    <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+                                    <div class="glass-content">GitHub</div>
+                                </a>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="glass-container project-card">
+                     <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+                     <div class="glass-content">
+                        <img src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Project 2 Image" class="project-image">
+                        <div class="project-details">
+                            <h3>Azure VM Monitoring Dashboard</h3>
+                            <p>Developed a real-time monitoring dashboard using Azure Monitor and Log Analytics. The solution provides visualizations for CPU, memory, and network usage across multiple virtual machines.</p>
+                             <div class="project-links">
+                                <a href="#" class="glass-container glass-container--button">
+                                    <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+                                    <div class="glass-content">Read More</div>
+                                </a>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+                 <!-- Project 3 -->
+                <div class="glass-container project-card">
+                     <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+                     <div class="glass-content">
+                        <img src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Project 3 Image" class="project-image">
+                        <div class="project-details">
+                            <h3>Containerized Python App with Docker</h3>
+                            <p>A simple Python Flask application containerized using Docker and deployed to a Kubernetes cluster. This project showcases CI/CD practices using a GitLab pipeline for automated builds and deployments.</p>
+                             <div class="project-links">
+                                <a href="#" class="glass-container glass-container--button">
+                                    <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+                                    <div class="glass-content">GitHub</div>
+                                </a>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- VIDEO SECTION -->
     <section id="video" class="glass-container content-section">
         <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
@@ -1505,9 +1743,9 @@
                       id="pause-music"
                       name="pause"></ion-icon>
                 </button>
-            
+           
                 <div id="particles-js" class="particles"></div>
-            
+           
                 <div class="container">
                   <div class="swiper">
                     <div class="swiper-wrapper">
@@ -1560,7 +1798,7 @@
                     <div class="swiper-pagination"></div>
                   </div>
                 </div>
-                
+               
                <a href="https://www.youtube.com/@evolvedgamerr" target="_blank" class="logo"><img src="https://assets.codepen.io/9868786/youtube.webp" alt="HTML tutorial"></a>
             </div>
         </div>
@@ -1587,7 +1825,7 @@
                   <button class="read-button" data-type="iframe" data-src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7293374390090534914">Read</button>
                 </div>
               </div>
-      
+    
               <div
                 class="item"
                 style="
@@ -1602,7 +1840,7 @@
                   <button class="read-button" data-type="iframe" data-src="https://www.linkedin.com/embed/feed/update/urn:li:share:7188675818208858112">Read</button>
                 </div>
               </div>
-      
+    
               <div
                 class="item"
                 style="
@@ -1617,7 +1855,7 @@
                   <button class="read-button" data-type="iframe" data-src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7061801558149107712">Read</button>
                 </div>
               </div>
-      
+    
               <div
                 class="item"
                 style="
@@ -1671,7 +1909,7 @@
             </div>
         </div>
     </section>
-    
+   
     <!-- CONTACT SECTION -->
     <section id="contact" class="glass-container content-section">
         <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
@@ -1679,6 +1917,22 @@
             <h2 class="section-title">Get In Touch</h2>
             <div class="contact-grid">
                 <div class="contact-details">
+                    <div class="game-card">
+                        <div id="container">
+                            <div id="game"></div>
+                            <div id="score">0</div>
+                            <div id="instructions">Click (or press the spacebar) to place the block</div>
+                            <div class="game-over">
+                                <h2>Game Over</h2>
+                                <p>You did great, you're the best.</p>
+                                <p>Click or spacebar to start again</p>
+                            </div>
+                            <div class="game-ready">
+                                <div id="start-button">Start</div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
                     <ul>
                         <li><span class="material-symbols-outlined">call</span> <a href="tel:+917257878710">+91 7257878710</a></li>
                         <li><span class="material-symbols-outlined">email</span> <a href="mailto:ravikant7257@gmail.com">ravikant7257@gmail.com</a></li>
@@ -1786,6 +2040,8 @@
     </svg>
 
     <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
@@ -1831,12 +2087,12 @@
                         dy: 0,
                     }
                 }
-                
+               
                 updateMousePosition = (eX, eY) => {
                     pointer.x = eX;
                     pointer.y = eY;
                 }
-                
+               
                 resetTrail = (eX, eY) => {
                     for (let i = 0; i < params.pointsNumber; i++) {
                         trail[i].x = eX;
@@ -1873,7 +2129,7 @@
                         p.x += p.dx;
                         p.y += p.dy;
                     });
-                    
+                   
                     ctx.strokeStyle = "rgba(0,0,0, 0.5)";
                     ctx.lineCap = "round";
                     ctx.beginPath();
@@ -1888,7 +2144,7 @@
                     }
                     ctx.lineTo(trail[trail.length - 1].x, trail[trail.length - 1].y);
                     ctx.stroke();
-                    
+                   
                     window.requestAnimationFrame(update);
                 }
 
@@ -1896,12 +2152,12 @@
                     canvas.width = window.innerWidth;
                     canvas.height = window.innerHeight;
                 }
-                
+               
                 setupCanvas();
                 update(0);
                 window.addEventListener("resize", setupCanvas);
             }
-            
+           
             // --- Menu Logic ---
             const menu = document.querySelector(".menu");
             const menuItems = menu.querySelectorAll(".menu__item");
@@ -1912,7 +2168,7 @@
                 item.classList.add("active");
                 activeItem = item;
             }
-            
+           
             // --- Mobile Nav Logic ---
             const hamburger = document.querySelector('.ham');
             const mobileNavLinks = document.querySelector('.mobile-nav-links');
@@ -1922,7 +2178,7 @@
                 hamburger.classList.toggle('active');
                 mobileNavLinks.classList.toggle('nav-open');
             });
-            
+           
             mobileNavMenuItems.forEach(item => {
                 item.addEventListener('click', (e) => {
                     updateMousePosition(e.clientX, e.clientY);
@@ -1931,7 +2187,7 @@
                     mobileNavLinks.classList.remove('nav-open');
                 });
             });
-            
+           
             // Desktop menu item clicks
             const desktopMenuItems = document.querySelectorAll('.desktop-nav .menu__item');
             desktopMenuItems.forEach(item => {
@@ -1955,7 +2211,7 @@
                 }
                 lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
             }, false);
-            
+           
             // --- Download Button Animation ---
             const downloadBtn = document.getElementById('download-btn');
             const btnText = downloadBtn.querySelector('.btn-text');
@@ -2027,7 +2283,7 @@
             const playIcon = document.getElementById("play-music");
             const pauseIcon = document.getElementById("pause-music");
             let isPlaying = false;
-            
+           
             function togglePlayPause() {
                 if (isPlaying) {
                     audio.pause();
@@ -2085,7 +2341,7 @@
                     let displayText = isDeleting ? currentRole.substring(0, charIndex - 1) : currentRole.substring(0, charIndex + 1);
                     typingTextElement.textContent = displayText;
                     charIndex = isDeleting ? charIndex - 1 : charIndex + 1;
-                    
+                   
                     let typeSpeed = isDeleting ? 75 : 150;
 
                     if (!isDeleting && charIndex === currentRole.length) {
@@ -2146,7 +2402,7 @@
                     iframe.src = '';
                 }
             });
-            
+           
             // --- Certifications View More/Less ---
             const certsGrid = document.querySelector('.certs-grid');
             const viewToggleBtn = document.getElementById('view-toggle-btn');
@@ -2239,7 +2495,7 @@
                 viewToggleBtn.classList.remove('hidden');
             }
 
-            
+           
             // Scrollspy for active nav link
             const sections = document.querySelectorAll('section[id]');
             function handleScroll() {
@@ -2257,8 +2513,296 @@
                 });
             }
             window.addEventListener('scroll', handleScroll);
+            
+            // --- Game Logic (PC Only) ---
+            if (window.innerWidth > 900) {
+                if (document.getElementById('game')) {
+                    class Stage {
+                        constructor() {
+                            this.render = function () {
+                                this.renderer.render(this.scene, this.camera);
+                            };
+                            this.add = function (elem) {
+                                this.scene.add(elem);
+                            };
+                            this.remove = function (elem) {
+                                this.scene.remove(elem);
+                            };
+                            this.container = document.getElementById('game');
+                            this.renderer = new THREE.WebGLRenderer({
+                                antialias: true,
+                                alpha: false
+                            });
+                            this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+                            this.renderer.setClearColor('#D0CBC7', 1);
+                            this.container.appendChild(this.renderer.domElement);
+                            this.scene = new THREE.Scene();
+                            let aspect = this.container.clientWidth / this.container.clientHeight;
+                            let d = 20;
+                            this.camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, -100, 1000);
+                            this.camera.position.x = 2;
+                            this.camera.position.y = 2;
+                            this.camera.position.z = 2;
+                            this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+                            this.light = new THREE.DirectionalLight(0xffffff, 0.5);
+                            this.light.position.set(0, 499, 0);
+                            this.scene.add(this.light);
+                            this.softLight = new THREE.AmbientLight(0xffffff, 0.4);
+                            this.scene.add(this.softLight);
+                            window.addEventListener('resize', () => this.onResize());
+                            this.onResize();
+                        }
+                        setCamera(y, speed = 0.3) {
+                            TweenLite.to(this.camera.position, speed, { y: y + 4, ease: Power1.easeInOut });
+                            TweenLite.to(this.camera.lookAt, speed, { y: y, ease: Power1.easeInOut });
+                        }
+                        onResize() {
+                            let viewSize = 30;
+                            this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+                            this.camera.left = this.container.clientWidth / -viewSize;
+                            this.camera.right = this.container.clientWidth / viewSize;
+                            this.camera.top = this.container.clientHeight / viewSize;
+                            this.camera.bottom = this.container.clientHeight / -viewSize;
+                            this.camera.updateProjectionMatrix();
+                        }
+                    }
+                    class Block {
+                        constructor(block) {
+                            this.STATES = { ACTIVE: 'active', STOPPED: 'stopped', MISSED: 'missed' };
+                            this.MOVE_AMOUNT = 12;
+                            this.dimension = { width: 0, height: 0, depth: 0 };
+                            this.position = { x: 0, y: 0, z: 0 };
+                            this.targetBlock = block;
+                            this.index = (this.targetBlock ? this.targetBlock.index : 0) + 1;
+                            this.workingPlane = this.index % 2 ? 'x' : 'z';
+                            this.workingDimension = this.index % 2 ? 'width' : 'depth';
+                            this.dimension.width = this.targetBlock ? this.targetBlock.dimension.width : 10;
+                            this.dimension.height = this.targetBlock ? this.targetBlock.dimension.height : 2;
+                            this.dimension.depth = this.targetBlock ? this.targetBlock.dimension.depth : 10;
+                            this.position.x = this.targetBlock ? this.targetBlock.position.x : 0;
+                            this.position.y = this.dimension.height * this.index;
+                            this.position.z = this.targetBlock ? this.targetBlock.position.z : 0;
+                            this.colorOffset = this.targetBlock ? this.targetBlock.colorOffset : Math.round(Math.random() * 100);
+                            if (!this.targetBlock) {
+                                this.color = 0x333344;
+                            }
+                            else {
+                                let offset = this.index + this.colorOffset;
+                                var r = Math.sin(0.3 * offset) * 55 + 200;
+                                var g = Math.sin(0.3 * offset + 2) * 55 + 200;
+                                var b = Math.sin(0.3 * offset + 4) * 55 + 200;
+                                this.color = new THREE.Color(r / 255, g / 255, b / 255);
+                            }
+                            this.state = this.index > 1 ? this.STATES.ACTIVE : this.STATES.STOPPED;
+                            this.speed = -0.1 - (this.index * 0.005);
+                            if (this.speed < -4)
+                                this.speed = -4;
+                            this.direction = this.speed;
+                            let geometry = new THREE.BoxGeometry(this.dimension.width, this.dimension.height, this.dimension.depth);
+                            geometry.applyMatrix(new THREE.Matrix4().makeTranslation(this.dimension.width / 2, this.dimension.height / 2, this.dimension.depth / 2));
+                            this.material = new THREE.MeshToonMaterial({ color: this.color, shading: THREE.FlatShading });
+                            this.mesh = new THREE.Mesh(geometry, this.material);
+                            this.mesh.position.set(this.position.x, this.position.y + (this.state == this.STATES.ACTIVE ? 0 : 0), this.position.z);
+                            if (this.state == this.STATES.ACTIVE) {
+                                this.position[this.workingPlane] = Math.random() > 0.5 ? -this.MOVE_AMOUNT : this.MOVE_AMOUNT;
+                            }
+                        }
+                        reverseDirection() {
+                            this.direction = this.direction > 0 ? this.speed : Math.abs(this.speed);
+                        }
+                        place() {
+                            this.state = this.STATES.STOPPED;
+                            let overlap = this.targetBlock.dimension[this.workingDimension] - Math.abs(this.position[this.workingPlane] - this.targetBlock.position[this.workingPlane]);
+                            let blocksToReturn = {
+                                plane: this.workingPlane,
+                                direction: this.direction
+                            };
+                            if (this.dimension[this.workingDimension] - overlap < 0.3) {
+                                overlap = this.dimension[this.workingDimension];
+                                blocksToReturn.bonus = true;
+                                this.position.x = this.targetBlock.position.x;
+                                this.position.z = this.targetBlock.position.z;
+                                this.dimension.width = this.targetBlock.dimension.width;
+                                this.dimension.depth = this.targetBlock.dimension.depth;
+                            }
+                            if (overlap > 0) {
+                                let choppedDimensions = { width: this.dimension.width, height: this.dimension.height, depth: this.dimension.depth };
+                                choppedDimensions[this.workingDimension] -= overlap;
+                                this.dimension[this.workingDimension] = overlap;
+                                let placedGeometry = new THREE.BoxGeometry(this.dimension.width, this.dimension.height, this.dimension.depth);
+                                placedGeometry.applyMatrix(new THREE.Matrix4().makeTranslation(this.dimension.width / 2, this.dimension.height / 2, this.dimension.depth / 2));
+                                let placedMesh = new THREE.Mesh(placedGeometry, this.material);
+                                let choppedGeometry = new THREE.BoxGeometry(choppedDimensions.width, choppedDimensions.height, choppedDimensions.depth);
+                                choppedGeometry.applyMatrix(new THREE.Matrix4().makeTranslation(choppedDimensions.width / 2, choppedDimensions.height / 2, choppedDimensions.depth / 2));
+                                let choppedMesh = new THREE.Mesh(choppedGeometry, this.material);
+                                let choppedPosition = {
+                                    x: this.position.x,
+                                    y: this.position.y,
+                                    z: this.position.z
+                                };
+                                if (this.position[this.workingPlane] < this.targetBlock.position[this.workingPlane]) {
+                                    this.position[this.workingPlane] = this.targetBlock.position[this.workingPlane];
+                                }
+                                else {
+                                    choppedPosition[this.workingPlane] += overlap;
+                                }
+                                placedMesh.position.set(this.position.x, this.position.y, this.position.z);
+                                choppedMesh.position.set(choppedPosition.x, choppedPosition.y, choppedPosition.z);
+                                blocksToReturn.placed = placedMesh;
+                                if (!blocksToReturn.bonus)
+                                    blocksToReturn.chopped = choppedMesh;
+                            }
+                            else {
+                                this.state = this.STATES.MISSED;
+                            }
+                            this.dimension[this.workingDimension] = overlap;
+                            return blocksToReturn;
+                        }
+                        tick() {
+                            if (this.state == this.STATES.ACTIVE) {
+                                let value = this.position[this.workingPlane];
+                                if (value > this.MOVE_AMOUNT || value < -this.MOVE_AMOUNT)
+                                    this.reverseDirection();
+                                this.position[this.workingPlane] += this.direction;
+                                this.mesh.position[this.workingPlane] = this.position[this.workingPlane];
+                            }
+                        }
+                    }
+                    class Game {
+                        constructor() {
+                            this.STATES = {
+                                'LOADING': 'loading',
+                                'PLAYING': 'playing',
+                                'READY': 'ready',
+                                'ENDED': 'ended',
+                                'RESETTING': 'resetting'
+                            };
+                            this.blocks = [];
+                            this.state = this.STATES.LOADING;
+                            this.stage = new Stage();
+                            this.mainContainer = document.getElementById('container');
+                            this.scoreContainer = document.getElementById('score');
+                            this.startButton = document.getElementById('start-button');
+                            this.instructions = document.getElementById('instructions');
+                            this.scoreContainer.innerHTML = '0';
+                            this.newBlocks = new THREE.Group();
+                            this.placedBlocks = new THREE.Group();
+                            this.choppedBlocks = new THREE.Group();
+                            this.stage.add(this.newBlocks);
+                            this.stage.add(this.placedBlocks);
+                            this.stage.add(this.choppedBlocks);
+                            this.addBlock();
+                            this.tick();
+                            this.updateState(this.STATES.READY);
+                            document.addEventListener('keydown', e => {
+                                if (e.keyCode == 32)
+                                    this.onAction();
+                            });
+                            document.addEventListener('click', e => {
+                                this.onAction();
+                            });
+                            document.addEventListener('touchstart', e => {
+                                e.preventDefault();
+                            });
+                        }
+                        updateState(newState) {
+                            for (let key in this.STATES)
+                                this.mainContainer.classList.remove(this.STATES[key]);
+                            this.mainContainer.classList.add(newState);
+                            this.state = newState;
+                        }
+                        onAction() {
+                            switch (this.state) {
+                                case this.STATES.READY:
+                                    this.startGame();
+                                    break;
+                                case this.STATES.PLAYING:
+                                    this.placeBlock();
+                                    break;
+                                case this.STATES.ENDED:
+                                    this.restartGame();
+                                    break;
+                            }
+                        }
+                        startGame() {
+                            if (this.state != this.STATES.PLAYING) {
+                                this.scoreContainer.innerHTML = '0';
+                                this.updateState(this.STATES.PLAYING);
+                                this.addBlock();
+                            }
+                        }
+                        restartGame() {
+                            this.updateState(this.STATES.RESETTING);
+                            let oldBlocks = this.placedBlocks.children;
+                            let removeSpeed = 0.2;
+                            let delayAmount = 0.02;
+                            for (let i = 0; i < oldBlocks.length; i++) {
+                                TweenLite.to(oldBlocks[i].scale, removeSpeed, { x: 0, y: 0, z: 0, delay: (oldBlocks.length - i) * delayAmount, ease: Power1.easeIn, onComplete: () => this.placedBlocks.remove(oldBlocks[i]) });
+                                TweenLite.to(oldBlocks[i].rotation, removeSpeed, { y: 0.5, delay: (oldBlocks.length - i) * delayAmount, ease: Power1.easeIn });
+                            }
+                            let cameraMoveSpeed = removeSpeed * 2 + (oldBlocks.length * delayAmount);
+                            this.stage.setCamera(2, cameraMoveSpeed);
+                            let countdown = { value: this.blocks.length - 1 };
+                            TweenLite.to(countdown, cameraMoveSpeed, { value: 0, onUpdate: () => { this.scoreContainer.innerHTML = String(Math.round(countdown.value)); } });
+                            this.blocks = this.blocks.slice(0, 1);
+                            setTimeout(() => {
+                                this.startGame();
+                            }, cameraMoveSpeed * 1000);
+                        }
+                        placeBlock() {
+                            let currentBlock = this.blocks[this.blocks.length - 1];
+                            let newBlocks = currentBlock.place();
+                            this.newBlocks.remove(currentBlock.mesh);
+                            if (newBlocks.placed)
+                                this.placedBlocks.add(newBlocks.placed);
+                            if (newBlocks.chopped) {
+                                this.choppedBlocks.add(newBlocks.chopped);
+                                let positionParams = { y: '-=30', ease: Power1.easeIn, onComplete: () => this.choppedBlocks.remove(newBlocks.chopped) };
+                                let rotateRandomness = 10;
+                                let rotationParams = {
+                                    delay: 0.05,
+                                    x: newBlocks.plane == 'z' ? ((Math.random() * rotateRandomness) - (rotateRandomness / 2)) : 0.1,
+                                    z: newBlocks.plane == 'x' ? ((Math.random() * rotateRandomness) - (rotateRandomness / 2)) : 0.1,
+                                    y: Math.random() * 0.1,
+                                };
+                                if (newBlocks.chopped.position[newBlocks.plane] > newBlocks.placed.position[newBlocks.plane]) {
+                                    positionParams[newBlocks.plane] = '+=' + (40 * Math.abs(newBlocks.direction));
+                                }
+                                else {
+                                    positionParams[newBlocks.plane] = '-=' + (40 * Math.abs(newBlocks.direction));
+                                }
+                                TweenLite.to(newBlocks.chopped.position, 1, positionParams);
+                                TweenLite.to(newBlocks.chopped.rotation, 1, rotationParams);
+                            }
+                            this.addBlock();
+                        }
+                        addBlock() {
+                            let lastBlock = this.blocks[this.blocks.length - 1];
+                            if (lastBlock && lastBlock.state == lastBlock.STATES.MISSED) {
+                                return this.endGame();
+                            }
+                            this.scoreContainer.innerHTML = String(this.blocks.length - 1);
+                            let newKidOnTheBlock = new Block(lastBlock);
+                            this.newBlocks.add(newKidOnTheBlock.mesh);
+                            this.blocks.push(newKidOnTheBlock);
+                            this.stage.setCamera(this.blocks.length * 2);
+                            if (this.blocks.length >= 5)
+                                this.instructions.classList.add('hide');
+                        }
+                        endGame() {
+                            this.updateState(this.STATES.ENDED);
+                        }
+                        tick() {
+                            this.blocks[this.blocks.length - 1].tick();
+                            this.stage.render();
+                            requestAnimationFrame(() => { this.tick(); });
+                        }
+                    }
+                    let game = new Game();
+                }
+            }
         });
-        
+       
     </script>
 </body>
 </html>
